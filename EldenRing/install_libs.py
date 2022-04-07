@@ -1,4 +1,4 @@
 import os
 
-cmdstr = 'pip install shutil'
+cmdstr = 'pip install pytest-shutil'
 os.system(cmdstr)
