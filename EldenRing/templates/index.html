@@ -29,6 +29,7 @@
 
 <body>
     <div class="root">
+        <div id="server-url">http://{{server_ip}}:{{server_port}}/</div>
         <h3 class="title">《EldenRing 埃尔登法环 无限记录保存功能》</h3>
         <h4 class="title-link">宣传视频链接：<a>https://www.bilibili.com/video/BV1XY41177sJ/</a></h4>
         <div class="input-row">
@@ -92,7 +93,8 @@
         crossorigin="anonymous"></script>
     <!-- <script src="{{ url_for('static', filename= 'js/index-controller.js') }}"></script> -->
     <script>
-        const BASE_URL = 'http://127.0.0.1:5500/';
+        const BASE_URL = $('#server-url').html();
+        console.log('BASE_URL = ',BASE_URL)
     </script>
     <script>
         // 备份当前游戏记录

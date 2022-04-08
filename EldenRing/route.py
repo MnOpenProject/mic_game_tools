@@ -2,7 +2,7 @@
 import os,json,time
 from flask import request, render_template
 from flask_app import app
-from config import datacopy_remember_dir,auto_datacopy_remember_dir
+from config import datacopy_remember_dir,auto_datacopy_remember_dir,server_ip,server_port
 from eldenring_steam_copydata import copydata_action
 from eldenring_steam_replacedata import replacedata_action_forapi
 from eldenring_steam_replacedata_fromauto import replacedata_fromauto_action_forapi
@@ -21,7 +21,7 @@ def index():
     user_datacopy_list = os.listdir(datacopy_remember_dir)
     # 获取自动备份记录列表
     auto_datacopy_list = os.listdir(auto_datacopy_remember_dir)
-    return render_template('index.html',user_datacopy_list=user_datacopy_list,auto_datacopy_list=auto_datacopy_list)
+    return render_template('index.html',user_datacopy_list=user_datacopy_list,auto_datacopy_list=auto_datacopy_list,server_ip=server_ip,server_port=server_port)
 
 
 @app.route('/copygamedata',methods =['get'])
