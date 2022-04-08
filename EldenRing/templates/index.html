@@ -35,7 +35,7 @@
         <div class="input-row">
             <span>备份记录名称（必填）:</span>
             <input type="text" id="copygamedata_filename">
-            <button type="button" id="btn_copydata" data-loading-text="Loading..." class="btn btn-primary">
+            <button type="button" id="btn_copydata" data-loading-text="Loading..." class="btn btn-primary btn-copydata">
                 备份当前游戏记录
             </button>
         </div>
@@ -195,7 +195,7 @@
         $('#btn_copydata').on('click', function () {
             copygamedata_filename = $('#copygamedata_filename').val()
             if(copygamedata_filename == ''){
-                alert('请输出备份记录名称')
+                alert('必须输入备份记录名称')
             }else {
                 const $btn = $(this);
                 $btn.text = 'loading';

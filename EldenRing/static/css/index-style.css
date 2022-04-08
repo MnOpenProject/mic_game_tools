@@ -49,6 +49,16 @@
 }
 
 @media screen and (max-width:896px){
+    .input-row {
+        height:100px;
+        margin-bottom: 6px;
+        margin-left: 12px;
+        display: flex;
+        flex-direction: column;
+    }
+    .btn-copydata {
+        margin-top: 6px;
+    }
     .btn-txt {
         display: none;
     }
