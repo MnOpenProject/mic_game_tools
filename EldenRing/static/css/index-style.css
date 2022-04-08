@@ -46,5 +46,10 @@
 .data-row .btn-box {
     margin-right: 6px;
     padding: 6px;
-    border: 1px solid gray;
+}
+
+@media screen and (max-width:896px){
+    .btn-txt {
+        display: none;
+    }
 }
