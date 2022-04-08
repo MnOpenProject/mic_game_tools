@@ -19,8 +19,10 @@ def index():
     init_dirs()
     # 获取主动备份记录列表
     user_datacopy_list = os.listdir(datacopy_remember_dir)
+    user_datacopy_list = user_datacopy_list[::-1] # 倒序排列，让时间最早的数据显示在第一条
     # 获取自动备份记录列表
     auto_datacopy_list = os.listdir(auto_datacopy_remember_dir)
+    auto_datacopy_list = auto_datacopy_list[::-1] # 倒序排列，让时间最早的数据显示在第一条
     return render_template('index.html',user_datacopy_list=user_datacopy_list,auto_datacopy_list=auto_datacopy_list,server_ip=server_ip,server_port=server_port)
 
 
@@ -28,7 +30,7 @@ def index():
 def copygamedata_api():
     copyname_input = request.args.get("filename")
     time_str = time.strftime(r'%Y年%m月%d日%H时%M分%S秒',time.localtime(time.time()))
-    copyname = f'{copyname_input}__{time_str}'
+    copyname = f'{time_str}__{copyname_input}'
     target_dir = copydata_action(filename=copyname)
 
     response = {

@@ -32,7 +32,7 @@ def copydata_action(output_dir=None,filename=None):
     if filename == None:
         copyname_input = input('请输入要备份记录的名称: ')
         time_str = time.strftime(r'%Y年%m月%d日%H时%M分%S秒',time.localtime(time.time()))
-        copyname = f'{copyname_input}__{time_str}'
+        copyname = f'{time_str}__{copyname_input}'
     else: 
         copyname = filename
     print(copyname)
