@@ -1,7 +1,7 @@
 ''' 选用自己主动备份的游戏记录，覆盖游戏当前记录的脚本：即选择一个已备份的记录，复制到游戏记录的目录下，让游戏运行时进行使用 '''
 import os,shutil,getpass,time
 from config import datacopy_remember_dir,auto_datacopy_remember_dir
-from common_util import del_files,is_int_str
+from common_util import is_int_str
 from eldenring_steam_copydata import copydata_action
 
 def init_dirs():
@@ -11,7 +11,7 @@ def init_dirs():
         os.makedirs(auto_datacopy_remember_dir)
 
 # 为 API 提供的功能函数
-def replacedata_action_forapi(filename=None):
+def replacedata_action_forapi(filename):
     # 获取当前系统登录用户名
     sys_user_name = getpass.getuser()
     print(f"系统信息:\n用户名 -- {sys_user_name}")
@@ -42,8 +42,7 @@ def replacedata_action_forapi(filename=None):
     print('\n==================================')
     print(f'{target_dir}\n游戏记录备份完成(自动备份功能)')
     # 先删除当前游戏的记录文件夹
-    for i in range(2):
-        del_files(game_data_dir)
+    shutil.rmtree(game_data_dir)
     # 把当前选择的记录复制过去
     source_dir = f'{datacopy_remember_dir}/{filename}'
     print(f'当前选择的备份记录为: \n{source_dir}')
@@ -82,8 +81,7 @@ def replacedata_action():
     print('\n==================================')
     print(f'{target_dir}\n游戏记录备份完成(自动备份功能)')
     # 先删除当前游戏的记录文件夹
-    for i in range(2):
-        del_files(game_data_dir)
+    shutil.rmtree(game_data_dir)
     # 把当前选择的记录复制过去
     source_dir = f'{datacopy_remember_dir}/{data_files[select_idx]}'
     print(f'当前选择的备份记录为: \n{source_dir}')

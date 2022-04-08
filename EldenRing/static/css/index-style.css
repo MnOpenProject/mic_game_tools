@@ -9,6 +9,7 @@
     background-color: rgb(202, 202, 202);
     height: 100vh;
     width: 100vw;
+    overflow: auto;
 }
 .title {
     margin-left: 12px;
@@ -33,11 +34,17 @@
     margin-left: 12px;
 }
 .data-row {
-    height:100px;
+    height:120px;
     border: 1px solid black;
     margin-bottom: 6px;
     padding: 12px 6px;
 }
+.data-row .btns-container {
+    margin-top: 6px;
+    display: flex;
+}
 .data-row .btn-box {
-    margin-top: 12px;
+    margin-right: 6px;
+    padding: 6px;
+    border: 1px solid gray;
 }

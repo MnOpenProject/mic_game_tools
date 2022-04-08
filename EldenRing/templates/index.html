@@ -44,11 +44,19 @@
                 {% for user_datacopy in user_datacopy_list %}
                 <div class="data-row">
                     <div>{{user_datacopy}}</div>
-                    <div class="btn-box">
-                        <button type="button" id="btn_replacedata" data-loading-text="Loading..." class="btn btn-primary">
-                            应用
-                        </button>
-                        <div>(把这条记录覆盖当前游戏的记录)</div>
+                    <div class="btns-container">
+                        <div class="btn-box">
+                            <button type="button" id="{{user_datacopy}}" data-loading-text="Loading..." class="btn btn-primary btn_replacedata">
+                                应用
+                            </button>
+                            <div>(把这条记录覆盖当前游戏的记录)</div>
+                        </div>
+                        <div class="btn-box">
+                            <button type="button" id="{{user_datacopy}}" data-loading-text="Loading..." class="btn btn-danger btn_deletecopydata">
+                                删除
+                            </button>
+                            <div>(删除这条备份数据)</div>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
@@ -58,11 +66,19 @@
                 {% for auto_datacopy in auto_datacopy_list %}
                 <div class="data-row">
                     <div>{{auto_datacopy}}</div>
-                    <div class="btn-box">
-                        <button type="button" id="btn_replacedata_fromauto" data-loading-text="Loading..." class="btn btn-primary">
-                            应用
-                        </button>
-                        <div>(把这条记录覆盖当前游戏的记录)</div>
+                    <div class="btns-container">
+                        <div class="btn-box">
+                            <button type="button"id="{{auto_datacopy}}" data-loading-text="Loading..." class="btn btn-primary btn_replacedata_fromauto">
+                                应用
+                            </button>
+                            <div>(把这条记录覆盖当前游戏的记录)</div>
+                        </div>
+                        <div class="btn-box">
+                            <button type="button" id="{{auto_datacopy}}" data-loading-text="Loading..." class="btn btn-danger btn_deletecopydata_fromauto">
+                                删除
+                            </button>
+                            <div>(删除这条备份数据)</div>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
@@ -80,23 +96,91 @@
     </script>
     <script>
         // 备份当前游戏记录
-        function copygamedata(filename,finalcallback) {
+        function copygamedata_api(filename,finalcallback) {
             $.ajax({
                 type: 'GET',
                 url: BASE_URL + 'copygamedata',
                 data: { filename: filename },
                 success: (responce) => {
                     responce = JSON.parse(responce)
-
-                    let optionsHtml = ''
-                    for (const item of responce.data) {
-                        optionsHtml += `<option>${item}</option>`
-                    }
                     finalcallback()
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     /*错误信息处理*/
                     finalcallback()
+                }
+            });
+        };
+        // 替换当前游戏记录
+        function replacegamedata_api(filename,finalcallback) {
+            $.ajax({
+                type: 'GET',
+                url: BASE_URL + 'replacegamedata',
+                data: { filename: filename },
+                success: (responce) => {
+                    responce = JSON.parse(responce)
+                    finalcallback()
+                    alert('记录还原成功，请进入游戏吧')
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    /*错误信息处理*/
+                    finalcallback()
+                    alert('记录还原失败')
+                }
+            });
+        };
+
+        // 替换当前游戏记录(从自动备份列表中进行还原)
+        function replacedata_fromauto_api(filename,finalcallback) {
+            $.ajax({
+                type: 'GET',
+                url: BASE_URL + 'replacegamedatafromauto',
+                data: { filename: filename },
+                success: (responce) => {
+                    responce = JSON.parse(responce)
+                    finalcallback()
+                    alert('记录还原成功，请进入游戏吧')
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    /*错误信息处理*/
+                    finalcallback()
+                    alert('记录还原失败')
+                }
+            });
+        };
+
+        // 删除备份的游戏记录
+        function deletegamedata_api(filename,finalcallback) {
+            $.ajax({
+                type: 'GET',
+                url: BASE_URL + 'deletegamedata',
+                data: { filename: filename },
+                success: (responce) => {
+                    responce = JSON.parse(responce)
+                    finalcallback()
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    /*错误信息处理*/
+                    finalcallback()
+                    alert('记录删除失败')
+                }
+            });
+        };
+
+        // 删除备份的游戏记录(自动备份目录)
+        function deletegamedata_fromauto_api(filename,finalcallback) {
+            $.ajax({
+                type: 'GET',
+                url: BASE_URL + 'deletegamedatafromauto',
+                data: { filename: filename },
+                success: (responce) => {
+                    responce = JSON.parse(responce)
+                    finalcallback()
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    /*错误信息处理*/
+                    finalcallback()
+                    alert('记录删除失败')
                 }
             });
         };
@@ -114,10 +198,51 @@
                 const $btn = $(this);
                 $btn.text = 'loading';
                 console.log($btn);
-                copygamedata(copygamedata_filename,()=>{
+                copygamedata_api(copygamedata_filename,()=>{
                     $btn.text = '应用';
                 })
             }
+        });
+
+        $('.btn_replacedata').on('click', function () {
+            copygamedata_filename = $(this).attr('id') // id存放的是对应的文件夹名称
+            const $btn = $(this);
+            $btn.text = 'loading';
+            console.log($btn);
+            replacegamedata_api(copygamedata_filename,()=>{
+                $btn.text = '应用';
+            })
+        });
+
+        $('.btn_replacedata_fromauto').on('click', function () {
+            copygamedata_filename = $(this).attr('id') // id存放的是对应的文件夹名称
+            const $btn = $(this);
+            $btn.text = 'loading';
+            console.log($btn);
+            replacedata_fromauto_api(copygamedata_filename,()=>{
+                $btn.text = '应用';
+            })
+        });
+
+        $('.btn_deletecopydata').on('click', function () {
+            copygamedata_filename = $(this).attr('id') // id存放的是对应的文件夹名称
+            const $btn = $(this);
+            $btn.text = 'loading';
+            console.log($btn);
+            console.log(copygamedata_filename)
+            deletegamedata_api(copygamedata_filename,()=>{
+                $btn.text = '应用';
+            })
+        });
+
+        $('.btn_deletecopydata_fromauto').on('click', function () {
+            copygamedata_filename = $(this).attr('id') // id存放的是对应的文件夹名称
+            const $btn = $(this);
+            $btn.text = 'loading';
+            console.log($btn);
+            deletegamedata_fromauto_api(copygamedata_filename,()=>{
+                $btn.text = '应用';
+            })
         });
     </script>
 </body>

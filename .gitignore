@@ -1,5 +1,6 @@
 **/__pycache__
-
+**/.DS_Store
+.DS_Store
 # EldenRing
 EldenRing/auto_data_remember
 EldenRing/data_remember
