@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="icon" href="/static/base/favicon.ico"/>
+    <!-- bootstrap -->
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+        integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"
+        integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+    <!-- my-style -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'css/index-style.css') }}" />
+    <!-- <style>
+        .root {
+            margin: 0;
+            padding: 16px;
+            background-color: rgb(202, 202, 202);
+            height: 100vh;
+            width: 100vw;
+        }
+    </style> -->
+</head>
+
+<body>
+    <div class="root">
+        <h3 class="title">《EldenRing 埃尔登法环 无限记录保存功能》</h3>
+        <h4 class="title-link">宣传视频链接：<a>https://www.bilibili.com/video/BV1XY41177sJ/</a></h4>
+        <div class="input-row">
+            <span>备份记录名称（必填）:</span>
+            <input type="text" id="copygamedata_filename">
+            <button type="button" id="btn_copydata" data-loading-text="Loading..." class="btn btn-primary">
+                备份当前游戏记录
+            </button>
+        </div>
+        <div class="container">
+            <div class="list-container">
+                <h3>主动备份列表</h3>
+                {% for user_datacopy in user_datacopy_list %}
+                <div class="data-row">
+                    <div>{{user_datacopy}}</div>
+                    <div class="btn-box">
+                        <button type="button" id="btn_replacedata" data-loading-text="Loading..." class="btn btn-primary">
+                            应用
+                        </button>
+                        <div>(把这条记录覆盖当前游戏的记录)</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="list-container">
+                <h3>自动备份列表</h3>
+                {% for auto_datacopy in auto_datacopy_list %}
+                <div class="data-row">
+                    <div>{{auto_datacopy}}</div>
+                    <div class="btn-box">
+                        <button type="button" id="btn_replacedata_fromauto" data-loading-text="Loading..." class="btn btn-primary">
+                            应用
+                        </button>
+                        <div>(把这条记录覆盖当前游戏的记录)</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename= 'js/jquery-3.6.0.js') }}"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+        integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+        crossorigin="anonymous"></script>
+    <!-- <script src="{{ url_for('static', filename= 'js/index-controller.js') }}"></script> -->
+    <script>
+        const BASE_URL = 'http://127.0.0.1:5500/';
+    </script>
+    <script>
+        // 备份当前游戏记录
+        function copygamedata(filename,finalcallback) {
+            $.ajax({
+                type: 'GET',
+                url: BASE_URL + 'copygamedata',
+                data: { filename: filename },
+                success: (responce) => {
+                    responce = JSON.parse(responce)
+
+                    let optionsHtml = ''
+                    for (const item of responce.data) {
+                        optionsHtml += `<option>${item}</option>`
+                    }
+                    finalcallback()
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    /*错误信息处理*/
+                    finalcallback()
+                }
+            });
+        };
+    </script>
+    <script>
+        // $('#video-type-select').on('change', function () {
+        //     // var selectedId = $('#video-type-select').val();
+        //     getSpiderScriptList()
+        // });
+        $('#btn_copydata').on('click', function () {
+            copygamedata_filename = $('#copygamedata_filename').val()
+            if(copygamedata_filename == ''){
+                alert('请输出备份记录名称')
+            }else {
+                const $btn = $(this);
+                $btn.text = 'loading';
+                console.log($btn);
+                copygamedata(copygamedata_filename,()=>{
+                    $btn.text = '应用';
+                })
+            }
+        });
+    </script>
+</body>
+
+</html>
