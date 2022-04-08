@@ -30,10 +30,8 @@ def getVideoSeasons_api():
 
 @app.route('/replacegamedata',methods =['get'])
 def getVideoSeasons_api():
-    copyname_input = request.args.get("filename")
-    time_str = time.strftime(r'%Y年%m月%d日%H时%M分%S秒',time.localtime(time.time()))
-    copyname = f'{copyname_input}__{time_str}'
-    target_dir = copydata_action(filename=copyname)
+    filename = request.args.get("filename")
+    target_dir = replacedata_action_forapi(filename=filename)
 
     response = {
         'code': 200,
