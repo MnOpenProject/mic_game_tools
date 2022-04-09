@@ -110,6 +110,7 @@
                 error: function (jqXHR, textStatus, errorThrown) {
                     /*错误信息处理*/
                     finalcallback()
+                    alert('记录备份失败，请刷新页面后重试')
                 }
             });
         };
@@ -127,7 +128,7 @@
                 error: function (jqXHR, textStatus, errorThrown) {
                     /*错误信息处理*/
                     finalcallback()
-                    alert('记录还原失败')
+                    alert('记录还原失败，请刷新页面后重试')
                 }
             });
         };
@@ -146,7 +147,7 @@
                 error: function (jqXHR, textStatus, errorThrown) {
                     /*错误信息处理*/
                     finalcallback()
-                    alert('记录还原失败')
+                    alert('记录还原失败，请刷新页面后重试')
                 }
             });
         };
@@ -164,7 +165,7 @@
                 error: function (jqXHR, textStatus, errorThrown) {
                     /*错误信息处理*/
                     finalcallback()
-                    alert('记录删除失败')
+                    alert('记录删除失败，请刷新页面后重试')
                 }
             });
         };
@@ -182,7 +183,7 @@
                 error: function (jqXHR, textStatus, errorThrown) {
                     /*错误信息处理*/
                     finalcallback()
-                    alert('记录删除失败')
+                    alert('记录删除失败，请刷新页面后重试')
                 }
             });
         };
@@ -192,6 +193,15 @@
         //     // var selectedId = $('#video-type-select').val();
         //     getSpiderScriptList()
         // });
+        // 输入框按键监听
+        $('#copygamedata_filename').keydown(function (e) {
+            const curKey = e.which;
+            // 监听回车事件
+            if (curKey == 13) {
+                $("#btn_copydata").click();
+                return false;
+            }
+        });
         $('#btn_copydata').on('click', function () {
             copygamedata_filename = $('#copygamedata_filename').val()
             if(copygamedata_filename == ''){
