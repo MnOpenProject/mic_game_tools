@@ -5,4 +5,13 @@
 ## 目录说明
 * 
     * EldenRing/ 目录 -- 请尽量退出游戏到菜单界面，再进行备份和还原游戏记录，否则可能损坏游戏记录文件
-    * * 【艾尔登法环】游戏记录备份和还原脚本 -- 请进入该目录下执行 py main_func.py 选择相应的操作即可 -- 请在
+    * * 【艾尔登法环】游戏记录备份和还原脚本 -- 请进入该目录下执行 py main_func.py 选择相应的操作即可 
+* web 服务启动
+    * 可在子目录下执行 py start.py 启动一个web服务，然后访问终端提示的服务地址即可 
+
+
+## 把 Flask 项目打包成 exe
+* 参考资料：https://bbs.huaweicloud.com/blogs/210229
+* * [1] -- py install Pyinstaller
+* * [2] -- 查看子目录下的 out_to_exe.py，根据里面的注释修改要打包的目录
+* * [3] -- 执行目录下的 py out_to_exe.py
